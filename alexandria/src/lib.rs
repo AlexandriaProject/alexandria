@@ -1,14 +1,13 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+mod log;
+mod db;
+mod platform;
+mod constants;
+
+use log::logger;
+pub fn start() {
+    logger::info("Starting");
+    db::sqlite::init();
+    let path = platform::dirs::local_dir().expect("Failed");
+    logger::debug(path.to_string_lossy().as_ref());
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
