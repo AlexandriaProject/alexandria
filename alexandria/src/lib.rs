@@ -2,6 +2,7 @@ mod log;
 mod db;
 mod platform;
 mod constants;
+mod files;
 
 use log::logger;
 pub fn start() {
