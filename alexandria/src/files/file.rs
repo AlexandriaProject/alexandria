@@ -1,12 +1,13 @@
 use std::time;
-use crate::files::Properties;
+use crate::files::{Properties, Tag};
 
 pub struct File {
     id: usize,
     path: String,
     created_at: time::Instant,
     updated_at: time::Instant,
-    props: Properties
+    props: Properties,
+    tags: Option<Vec<Tag>>,
 }
 
 impl File {
@@ -18,6 +19,7 @@ impl File {
             updated_at  INTEGER NOT NULL,
             props_id    INTEGER NOT NULL,
             FOREIGN KEY (props_id) REFERENCES properties(id)
+            ON DELETE CASCADE
         );"#
     }
 }

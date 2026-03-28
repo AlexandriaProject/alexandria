@@ -5,7 +5,7 @@ pub struct Properties {
     st_mtime: usize,
     hash: usize,
     st_ino: usize,
-    st_mode: usize
+    st_mode: usize,
 }
 
 impl Properties {
