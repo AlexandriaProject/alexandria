@@ -1,14 +1,13 @@
-mod log;
+#[macro_use]
+pub mod log;
 mod db;
 mod platform;
 mod constants;
 mod files;
 
-use log::logger;
 pub fn start() {
-    logger::info("Starting");
     db::sqlite::init();
     let path = platform::dirs::local_dir().expect("Failed");
-    logger::debug(path.to_string_lossy().as_ref());
+    debug!("{:?}", path);
 }
 

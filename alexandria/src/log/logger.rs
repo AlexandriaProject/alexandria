@@ -4,24 +4,25 @@
 use std::env;
 use once_cell::sync::Lazy;
 
-static DEBUG_ENABLED: Lazy<bool> = Lazy::new(|| {
-    env::var("DEBUG").unwrap_or_else(|_| "0".to_string()) == "1"
+pub static DEBUG_ENABLED: Lazy<bool> = Lazy::new(|| {
+    env::var("DEBUG").map(|v| v == "1").unwrap_or(false)
 });
 
-pub fn debug(msg: &str) {
-    if *DEBUG_ENABLED {
-        println!("\x1b[36m[DEBUG]\x1b[00m {msg}");
-    }
+#[derive(Copy, Clone)]
+pub enum Level {
+    Debug,
+    Info,
+    Warn,
+    Error,
 }
 
-pub fn info(msg: &str) {
-    println!("\x1b[34m[INFO]\x1b[00m {msg}");
-}
+pub fn log(level: Level, msg: &str) {
+    let (label, color) = match level {
+        Level::Debug => ("DEBUG", "\x1b[36m"),
+        Level::Info  => ("INFO",  "\x1b[34m"),
+        Level::Warn  => ("WARN",  "\x1b[33m"),
+        Level::Error => ("ERROR", "\x1b[31m"),
+    };
 
-pub fn warn(msg: &str) {
-    println!("\x1b[33m[WARN]\x1b[00m {msg}");
-}
-
-pub fn error(msg: &str) {
-    println!("\x1b[31m[ERROR]\x1b[00m {msg}");
+    println!("{color}[{label}]\x1b[00m {msg}");
 }
